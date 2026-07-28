@@ -59,6 +59,7 @@ pipeline {
                 sh '''
                 docker stop employee-management || true
                 docker rm employee-management || true
+                docker system prune -f
 
                 docker run -d \
                 --name employee-management \
