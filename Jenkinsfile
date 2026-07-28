@@ -38,8 +38,13 @@ pipeline {
 
         stage('Trivy File System Scan') {
             steps {
-                sh 'trivy fs .'
-            }
+                sh '''
+                trivy fs \
+                --format table \
+                --output trivy-fs-report.txt \
+                .
+                '''
+             }
         }
 
         stage('Build Docker Image') {
@@ -50,7 +55,12 @@ pipeline {
 
         stage('Trivy Docker Image Scan') {
             steps {
-                sh 'trivy image $IMAGE_NAME'
+                sh '''
+                trivy image \
+                --format table \
+                --output trivy-image-report.txt \
+                employee-management:1.0
+                '''
             }
         }
 
@@ -73,6 +83,8 @@ pipeline {
 
     post {
         always {
+            archiveArtifacts artifacts: '**/*.txt', allowEmptyArchive: true
+            archiveArtifacts artifacts: '**/dependency-check-report/**', allowEmptyArchive: true
             cleanWs()
         }
     }
