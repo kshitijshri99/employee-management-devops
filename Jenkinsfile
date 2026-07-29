@@ -8,6 +8,16 @@ pipeline {
 
     environment {
         IMAGE_NAME = "employee-management:1.0"
+        CONTAINER_NAME = "employee-management-container"
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(
+            numToKeepStr: '10',
+            artifactNumToKeepStr: '10'
+        ))
     }
 
     stages {
@@ -15,11 +25,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/kshitijshri99/employee-management-devops.git'
+                    url: 'https://github.com/kshitijshri99/employee-management-devops.git'
             }
         }
 
-        stage('Build') {
+        stage('Build Application') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
@@ -29,9 +39,9 @@ pipeline {
             steps {
                 sh '''
                 /opt/dependency-check-tool/bin/dependency-check.sh \
-                --project EmployeeManagement \
-                --scan . \
-                --out dependency-check-report
+                    --project EmployeeManagement \
+                    --scan . \
+                    --out dependency-check-report
                 '''
             }
         }
@@ -40,16 +50,18 @@ pipeline {
             steps {
                 sh '''
                 trivy fs \
-                --format table \
-                --output trivy-fs-report.txt \
-                .
+                    --format table \
+                    --output trivy-fs-report.txt \
+                    .
                 '''
-             }
+            }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh '''
+                docker build -t $IMAGE_NAME .
+                '''
             }
         }
 
@@ -57,9 +69,9 @@ pipeline {
             steps {
                 sh '''
                 trivy image \
-                --format table \
-                --output trivy-image-report.txt \
-                employee-management:1.0
+                    --format table \
+                    --output trivy-image-report.txt \
+                    $IMAGE_NAME
                 '''
             }
         }
@@ -67,23 +79,57 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 sh '''
-                docker rm -f employee-management-container || true
+                echo "Stopping existing container..."
+
+                docker stop $CONTAINER_NAME || true
+                docker rm -f $CONTAINER_NAME || true
+
+                echo "Cleaning unused Docker images..."
                 docker image prune -f
-                docker run -d \     
-                --restart unless-stopped \
-                --name employee-management-container \
-                -p 8080:8080 \
-                employee-management:1.0
+
+                echo "Starting new container..."
+
+                docker run -d \
+                    --restart unless-stopped \
+                    --name $CONTAINER_NAME \
+                    -p 8080:8080 \
+                    $IMAGE_NAME
+
+                echo "Deployment Successful."
                 '''
             }
         }
 
+        stage('Verify Deployment') {
+            steps {
+                sh '''
+                echo "Waiting for application..."
+                sleep 15
+
+                docker ps
+
+                curl -I http://localhost:8080 || true
+                '''
+            }
+        }
     }
 
     post {
+
+        success {
+            echo "Pipeline completed successfully."
+        }
+
+        failure {
+            echo "Pipeline failed."
+        }
+
         always {
-            archiveArtifacts artifacts: '**/*.txt', allowEmptyArchive: true
-            archiveArtifacts artifacts: '**/dependency-check-report/**', allowEmptyArchive: true
+
+            archiveArtifacts artifacts: 'trivy-fs-report.txt', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'trivy-image-report.txt', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'dependency-check-report/**', allowEmptyArchive: true
+
             cleanWs()
         }
     }
