@@ -132,5 +132,3 @@ pipeline {
 
             cleanWs()
         }
-    }
-}

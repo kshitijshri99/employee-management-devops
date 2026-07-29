@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0d6efd;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #0d6efd;
+            color: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Employee Management System</h1>
+
+    <p>Spring Boot REST API</p>
+
+    <p>Status:
+        <span class="status">Running</span>
+    </p>
+
+    <h2>Available APIs</h2>
+
+    <table>
+        <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+        </tr>
+
+        <tr>
+            <td>GET</td>
+            <td>/api/employees</td>
+        </tr>
+
+        <tr>
+            <td>GET</td>
+            <td>/api/employees/{id}</td>
+        </tr>
+
+        <tr>
+            <td>POST</td>
+            <td>/api/employees</td>
+        </tr>
+
+        <tr>
+            <td>PUT</td>
+            <td>/api/employees/{id}</td>
+        </tr>
+
+        <tr>
+            <td>DELETE</td>
+            <td>/api/employees/{id}</td>
+        </tr>
+    </table>
+
+    <h2>Technology Stack</h2>
+
+    <ul>
+        <li>Java</li>
+        <li>Spring Boot</li>
+        <li>MySQL</li>
+        <li>Maven</li>
+        <li>Docker</li>
+        <li>Jenkins</li>
+        <li>Kubernetes</li>
+    </ul>
+
+    <div class="footer">
+        Developed by Kshitij Shrivastava
+    </div>
+
+</div>
+
+</body>
+</html>
