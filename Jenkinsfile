@@ -67,12 +67,11 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 sh '''
-                docker stop employee-management || true
-                docker rm employee-management || true
-                docker system prune -f
-
-                docker run -d \
-                --name employee-management \
+                docker rm -f employee-management-container || true
+                docker image prune -f
+                docker run -d \     
+                --restart unless-stopped \
+                --name employee-management-container \
                 -p 8080:8080 \
                 employee-management:1.0
                 '''
