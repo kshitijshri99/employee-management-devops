@@ -51,7 +51,7 @@ and monitoring on AWS.
 
 ## Screenshots
 
-Place these images from the `jenkins-images/` folder:
+Place these images from the `images/` folder:
 
 -   GitHub Repository
 -   Jenkins Pipeline
