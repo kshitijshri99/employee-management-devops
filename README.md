@@ -1,106 +1,142 @@
-# 🚀 Employee Management DevSecOps Pipeline
+# 🚀 Employee Management System -- DevSecOps Pipeline
 
-## Overview
+![Banner](images/banner.png)
 
-A production-style DevSecOps project demonstrating Continuous
-Integration, Continuous Delivery, security scanning, containerization,
-and monitoring on AWS.
+## 📌 Overview
 
-## Features
+A production-style DevSecOps implementation of an Employee Management
+System built with **Java 21, Spring Boot, Maven, Docker, Jenkins, AWS
+EC2, Prometheus, Grafana, OWASP Dependency-Check and Trivy**.
 
--   Spring Boot Employee Management Application
+## ✨ Features
+
+-   CRUD REST APIs
 -   Dockerized deployment
--   Jenkins Declarative Pipeline
--   OWASP Dependency Check
--   Trivy File System & Image Scanning
--   Automated Docker Deployment
--   AWS EC2 Hosting
--   Spring Boot Actuator
--   Prometheus Monitoring
--   Grafana Dashboards
+-   CI/CD with Jenkins
+-   Security Scanning (OWASP + Trivy)
+-   Monitoring with Spring Boot Actuator
+-   Metrics collection using Prometheus
+-   Visualization using Grafana
+-   Deployment on AWS EC2
 
-## Architecture
+## 🏗️ Architecture
 
-![Architecture](DevSecOps_Architecture.png)
+``` text
+Developer
+   │
+GitHub Repository
+   │
+Jenkins Pipeline
+   │
+Maven Build
+   │
+OWASP + Trivy
+   │
+Docker Image
+   │
+AWS EC2 (Docker Container)
+   │
+Spring Boot + Actuator
+   │
+Prometheus
+   │
+Grafana Dashboard
+```
 
-## Tech Stack
+## 🛠️ Tech Stack
 
   Category     Technology
   ------------ -------------------------------
-  Backend      Spring Boot 4, Java 21
+  Language     Java 21
+  Framework    Spring Boot
   Build        Maven
-  Database     H2
   CI/CD        Jenkins
   Container    Docker
   Security     OWASP Dependency Check, Trivy
   Monitoring   Prometheus, Grafana
   Cloud        AWS EC2
-  SCM          GitHub
 
-## CI/CD Workflow
+## 📂 Repository Structure
 
-1.  Checkout source code
-2.  Maven Build
-3.  OWASP Dependency Check
-4.  Trivy File System Scan
-5.  Docker Image Build
-6.  Trivy Image Scan
-7.  Deploy Docker Container
-8.  Verify Deployment
-9.  Monitor with Prometheus & Grafana
-
-## Screenshots
-
-Place these images from the `images/` folder:
-
--   GitHub Repository
--   Jenkins Pipeline
--   Spring Boot Application
--   OWASP Dependency Check
--   Trivy Scan Report
--   Docker Containers
--   Prometheus Targets
--   Grafana Dashboard
--   EC2 Instance
-
-## Run Locally
-
-``` bash
-mvn clean package
-docker build -t employee-management:1.0 .
-docker run -d -p 8080:8080 employee-management:1.0
+``` text
+employee-management-devops/
+├── src/
+├── Dockerfile
+├── Jenkinsfile
+├── pom.xml
+├── README.md
+└── images/
 ```
 
-## Monitoring
+## 📸 Project Screenshots
 
-Actuator:
+### Promethus Target Page
 
-    http://<EC2-IP>:8080/actuator
+![Promethus Target
+Page](employee-management-devops/images/promethus-target-page.png)
 
-Prometheus:
+### Docker Containers
 
-    http://<EC2-IP>:9090
+![Docker
+Containers](employee-management-devops/images/docker-containers.png)
 
-Grafana:
+### Ec2 Instance
 
-    http://<EC2-IP>:3000
+![Ec2 Instance](employee-management-devops/images/ec2-instance.png)
 
-## Security
+### Spring Boot App
+
+![Spring Boot
+App](employee-management-devops/images/spring-boot-app.png)
+
+### Owasp Dependency Check
+
+![Owasp Dependency
+Check](employee-management-devops/images/owasp-dependency-check.png)
+
+### Github Repository
+
+![Github
+Repository](employee-management-devops/images/github-repository.png)
+
+### Jenkins Pipeline
+
+![Jenkins
+Pipeline](employee-management-devops/images/jenkins-pipeline.png)
+
+### Grafana Dashboard
+
+![Grafana
+Dashboard](employee-management-devops/images/grafana-dashboard.png)
+
+### Trivy Scan Report
+
+![Trivy Scan
+Report](employee-management-devops/images/trivy-scan-report.png)
+
+## 🚀 Deployment
+
+``` bash
+git clone <repository>
+mvn clean package
+docker build -t employee-management:1.0 .
+docker run -d -p 8080:8080 --name employee-management-container employee-management:1.0
+```
+
+## 📊 Monitoring
+
+-   `/actuator/prometheus`
+-   Prometheus scrapes metrics
+-   Grafana visualizes JVM, HTTP, Memory, CPU and application metrics.
+
+## 🔒 Security
 
 -   OWASP Dependency Check
 -   Trivy File System Scan
 -   Trivy Docker Image Scan
 
-## Future Improvements
-
--   SonarQube
--   Kubernetes
--   Helm
--   Terraform
--   Alertmanager
--   Node Exporter
--   cAdvisor
-
-## Author
+## 👨‍💻 Author
 
 **Kshitij Shrivastava**
+
+If you found this project useful, consider giving it a ⭐.
