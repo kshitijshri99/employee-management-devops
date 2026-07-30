@@ -16,6 +16,11 @@ End-to-End DevSecOps CI/CD Pipeline on AWS
 
 </p>
 
+## Architecture
+
+![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
+
+
 ## 📌 Overview
 
 A production-style DevSecOps implementation of an Employee Management
@@ -25,10 +30,6 @@ EC2, Prometheus, Grafana, OWASP Dependency-Check and Trivy**.
 The application exposes a REST API for managing employee records, backed
 by an H2 in-memory database via Spring Data JPA, with a simple Thymeleaf
 landing page and full observability through Actuator + Prometheus + Grafana.
-
-## Architecture
-
-![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
 
 ## ✨ Features
 
@@ -280,3 +281,11 @@ Java, Spring Boot, Spring Data JPA, Docker, Jenkins, AWS EC2, Maven, Prometheus,
 ## 📄 License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+<div align="center">
+
+### ⭐ If you found this project helpful, please consider giving it a star!
+
+Made with ❤️ by **Kshitij Shrivastava**
+
+</div>
