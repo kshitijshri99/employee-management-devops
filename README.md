@@ -164,6 +164,33 @@ docker run -d -p 8080:8080 --name employee-management-container employee-managem
 -   Prometheus scrapes metrics
 -   Grafana visualizes JVM, HTTP, Memory, CPU and application metrics.
 
+## Project Outcomes
+
+- Automated CI/CD using Jenkins
+- Dockerized deployment
+- AWS EC2 hosting
+- Dependency vulnerability scanning
+- Container vulnerability scanning
+- Monitoring with Prometheus
+- Visualization using Grafana
+
+## Skills Demonstrated
+
+Java
+Spring Boot
+Docker
+Jenkins
+AWS EC2
+Maven
+Prometheus
+Grafana
+OWASP
+Trivy
+Linux
+Git
+DevSecOps
+CI/CD
+
 ## 🔒 Security
 
 -   OWASP Dependency Check
