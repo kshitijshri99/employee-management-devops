@@ -1,6 +1,19 @@
 # 🚀 Employee Management System — DevSecOps Pipeline
 
-![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
+<p align="center">
+
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-4.1-green?style=for-the-badge&logo=springboot)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue?style=for-the-badge&logo=docker)
+![Jenkins](https://img.shields.io/badge/Jenkins-CI/CD-red?style=for-the-badge&logo=jenkins)
+![AWS](https://img.shields.io/badge/AWS-EC2-orange?style=for-the-badge&logo=amazonaws)
+![Prometheus](https://img.shields.io/badge/Prometheus-Monitoring-E6522C?style=for-the-badge&logo=prometheus)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboard-F46800?style=for-the-badge&logo=grafana)
+![Trivy](https://img.shields.io/badge/Trivy-Security-blue?style=for-the-badge)
+![OWASP](https://img.shields.io/badge/OWASP-DependencyCheck-black?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+</p>
 
 ## 📌 Overview
 
@@ -11,6 +24,10 @@ EC2, Prometheus, Grafana, OWASP Dependency-Check and Trivy**.
 The application exposes a REST API for managing employee records, backed
 by an H2 in-memory database via Spring Data JPA, with a simple Thymeleaf
 landing page and full observability through Actuator + Prometheus + Grafana.
+
+## Architecture
+
+![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
 
 ## ✨ Features
 
