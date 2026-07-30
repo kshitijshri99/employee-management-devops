@@ -1,6 +1,6 @@
 # 🚀 Employee Management System -- DevSecOps Pipeline
 
-![Banner](images/architecture.png)
+![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
 
 ## 📌 Overview
 
