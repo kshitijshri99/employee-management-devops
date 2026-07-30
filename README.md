@@ -1,6 +1,6 @@
 # 🚀 Employee Management System -- DevSecOps Pipeline
 
-![Banner](images/banner.png)
+![Banner](images/architecture.png)
 
 ## 📌 Overview
 
