@@ -1,4 +1,4 @@
-# 🚀 Employee Management System -- DevSecOps Pipeline
+# 🚀 Employee Management System — DevSecOps Pipeline
 
 ![Banner](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/architecture.png)
 
@@ -8,20 +8,28 @@ A production-style DevSecOps implementation of an Employee Management
 System built with **Java 21, Spring Boot, Maven, Docker, Jenkins, AWS
 EC2, Prometheus, Grafana, OWASP Dependency-Check and Trivy**.
 
+The application exposes a REST API for managing employee records, backed
+by an H2 in-memory database via Spring Data JPA, with a simple Thymeleaf
+landing page and full observability through Actuator + Prometheus + Grafana.
+
 ## ✨ Features
 
--   CRUD REST APIs
--   Dockerized deployment
--   CI/CD with Jenkins
--   Security Scanning (OWASP + Trivy)
--   Monitoring with Spring Boot Actuator
--   Metrics collection using Prometheus
--   Visualization using Grafana
--   Deployment on AWS EC2
+- CRUD REST APIs for employee records (`/api/employees`)
+- Server-side validation (Jakarta Bean Validation) on employee input
+- Centralized exception handling (`GlobalExceptionHandler`, `ResourceNotFoundException`)
+- H2 in-memory database with browser console (`/h2-console`)
+- Thymeleaf landing page served at `/`
+- Multi-stage Dockerized deployment
+- CI/CD with Jenkins
+- Security scanning (OWASP Dependency-Check + Trivy filesystem & image scans)
+- Monitoring with Spring Boot Actuator
+- Metrics collection using Prometheus
+- Visualization using Grafana
+- Deployment on AWS EC2
 
 ## 🏗️ Architecture
 
-``` text
+```text
 Developer
    │
 GitHub Repository
@@ -30,9 +38,13 @@ Jenkins Pipeline
    │
 Maven Build
    │
-OWASP + Trivy
+OWASP Dependency Check + Trivy Filesystem Scan
    │
-Docker Image
+Docker Image Build
+   │
+Trivy Docker Image Scan
+   │
+Docker Deployment
    │
 AWS EC2 (Docker Container)
    │
@@ -45,28 +57,65 @@ Grafana Dashboard
 
 ## 🛠️ Tech Stack
 
-  Category     Technology
-  ------------ -------------------------------
-  Language     Java 21
-  Framework    Spring Boot
-  Build        Maven
-  CI/CD        Jenkins
-  Container    Docker
-  Security     OWASP Dependency Check, Trivy
-  Monitoring   Prometheus, Grafana
-  Cloud        AWS EC2
+| Category    | Technology                                                |
+|-------------|------------------------------------------------------------|
+| Language    | Java 21                                                     |
+| Framework   | Spring Boot 4.1.0 (Web, Data JPA, Validation, Thymeleaf, Actuator) |
+| Build       | Maven                                                        |
+| Database    | H2 (in-memory)                                              |
+| Container   | Docker (multi-stage build)                                  |
+| CI/CD       | Jenkins                                                      |
+| Security    | OWASP Dependency Check, Trivy                                |
+| Monitoring  | Prometheus, Micrometer                                       |
+| Visualization | Grafana                                                    |
+| Cloud       | AWS EC2                                                      |
 
 ## 📂 Repository Structure
 
-``` text
+```text
 employee-management-devops/
 ├── src/
+│   ├── main/
+│   │   ├── java/com/devops/employee/
+│   │   │   ├── controller/
+│   │   │   │   ├── EmployeeController.java   # REST CRUD endpoints
+│   │   │   │   └── HomeController.java       # Serves Thymeleaf landing page
+│   │   │   ├── entity/
+│   │   │   │   └── Employee.java             # JPA entity + validation
+│   │   │   ├── exception/
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   └── ResourceNotFoundException.java
+│   │   │   ├── repository/
+│   │   │   │   └── EmployeeRepository.java
+│   │   │   ├── service/
+│   │   │   │   ├── EmployeeService.java
+│   │   │   │   └── impl/EmployeeServiceImpl.java
+│   │   │   └── EmployeeManagementApplication.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── templates/index.html
+│   └── test/
+│       └── java/com/devops/employee/EmployeeManagementApplicationTests.java
 ├── Dockerfile
 ├── Jenkinsfile
 ├── pom.xml
 ├── README.md
 └── images/
 ```
+
+## 🔌 REST API
+
+Base path: `/api/employees`
+
+| Method | Endpoint              | Description                    |
+|--------|------------------------|--------------------------------|
+| GET    | `/api/employees`       | List all employees             |
+| GET    | `/api/employees/{id}`  | Get a single employee by ID    |
+| POST   | `/api/employees`       | Create a new employee          |
+| PUT    | `/api/employees/{id}`  | Update an existing employee    |
+| DELETE | `/api/employees/{id}`  | Delete an employee              |
+
+**Employee fields:** `firstName`, `lastName`, `email` (unique, validated), `department`, `salary` — all required and validated at the API layer, with errors surfaced through the global exception handler.
 
 # 📸 Project Screenshots
 
@@ -80,16 +129,18 @@ employee-management-devops/
 
 ## ⚙️ Jenkins CI/CD Pipeline
 
-The Jenkins pipeline automates the entire DevSecOps workflow:
+The `Jenkinsfile` automates the entire DevSecOps workflow with the following stages:
 
-- Source Code Checkout
-- Maven Build
-- OWASP Dependency Check
-- Trivy File System Scan
-- Docker Image Build
-- Trivy Docker Image Scan
-- Docker Deployment
-- Deployment Verification
+1. **Checkout** — pulls the `main` branch from GitHub
+2. **Build Application** — `mvn clean package -DskipTests`
+3. **OWASP Dependency Check** — scans dependencies for known CVEs
+4. **Trivy Filesystem Scan** — scans the source tree for vulnerabilities
+5. **Build Docker Image** — builds the `employee-management:1.0` image
+6. **Trivy Docker Image Scan** — scans the built image for vulnerabilities
+7. **Deploy Container** — stops any existing container, prunes unused images, and runs the new container on port `8080`
+8. **Verify Deployment** — waits for startup and checks the app responds
+
+Scan reports (`trivy-fs-report.txt`, `trivy-image-report.txt`, `dependency-check-report/`) are archived as Jenkins build artifacts on every run, and the workspace is cleaned afterward.
 
 ![Jenkins Pipeline](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/jenkins-pipeline.png)
 
@@ -105,7 +156,7 @@ OWASP Dependency Check scans the Maven dependencies for publicly known vulnerabi
 
 ## 🛡️ Trivy Security Scan
 
-Trivy performs vulnerability scanning on both the application source code and Docker image before deployment.
+Trivy performs vulnerability scanning on both the application source code (filesystem scan) and the built Docker image before deployment.
 
 ![Trivy Scan](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/trivy-scan-report.png)
 
@@ -113,7 +164,12 @@ Trivy performs vulnerability scanning on both the application source code and Do
 
 ## 🐳 Docker Deployment
 
-The application is packaged as a Docker image and deployed automatically by the Jenkins pipeline.
+The application is built using a **multi-stage Dockerfile**:
+
+- **Stage 1 (builder)** — `maven:3.9.9-eclipse-temurin-21`, downloads dependencies and packages the JAR
+- **Stage 2 (runtime)** — `eclipse-temurin:21-jre`, copies only the built JAR and runs it
+
+The image is built and deployed automatically by the Jenkins pipeline, exposing port `8080`.
 
 ![Docker](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/docker-containers.png)
 
@@ -137,7 +193,7 @@ Landing page of the deployed Spring Boot application running on AWS.
 
 ## 📊 Prometheus Monitoring
 
-Prometheus continuously scrapes Spring Boot Actuator metrics exposed by the application.
+Prometheus continuously scrapes Spring Boot Actuator metrics exposed at `/actuator/prometheus`.
 
 ![Prometheus](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/promethus-target-page.png)
 
@@ -149,53 +205,52 @@ Grafana visualizes JVM metrics, application health, CPU usage, memory utilizatio
 
 ![Grafana Dashboard](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/grafana-dashboard.png)
 
-## 🚀 Deployment
+## 🚀 Running Locally
 
-``` bash
+```bash
 git clone <repository>
-mvn clean package
+cd employee-management-devops
+
+# Build and run with Maven
+./mvnw clean package
+./mvnw spring-boot:run
+```
+
+The app starts on **http://localhost:8080**, with the H2 console available at **http://localhost:8080/h2-console** (JDBC URL: `jdbc:h2:mem:employee_db`, user: `sa`, no password).
+
+## 🐳 Running with Docker
+
+```bash
 docker build -t employee-management:1.0 .
 docker run -d -p 8080:8080 --name employee-management-container employee-management:1.0
 ```
 
 ## 📊 Monitoring
 
--   `/actuator/prometheus`
--   Prometheus scrapes metrics
--   Grafana visualizes JVM, HTTP, Memory, CPU and application metrics.
+- `/actuator/prometheus` — Prometheus-formatted metrics endpoint
+- `/actuator/health` — health checks with full details enabled
+- Prometheus scrapes metrics from the actuator endpoint
+- Grafana visualizes JVM, HTTP, memory, CPU, and application-level metrics (tagged `application=EmployeeManagement`)
 
 ## Project Outcomes
 
 - Automated CI/CD using Jenkins
-- Dockerized deployment
+- Dockerized, multi-stage deployment
 - AWS EC2 hosting
-- Dependency vulnerability scanning
-- Container vulnerability scanning
+- Dependency vulnerability scanning (OWASP)
+- Filesystem and container vulnerability scanning (Trivy)
 - Monitoring with Prometheus
 - Visualization using Grafana
 
 ## Skills Demonstrated
 
-Java
-Spring Boot
-Docker
-Jenkins
-AWS EC2
-Maven
-Prometheus
-Grafana
-OWASP
-Trivy
-Linux
-Git
-DevSecOps
-CI/CD
+Java, Spring Boot, Spring Data JPA, Docker, Jenkins, AWS EC2, Maven, Prometheus, Grafana, OWASP, Trivy, Linux, Git, DevSecOps, CI/CD
 
 ## 🔒 Security
 
--   OWASP Dependency Check
--   Trivy File System Scan
--   Trivy Docker Image Scan
+- OWASP Dependency Check
+- Trivy Filesystem Scan
+- Trivy Docker Image Scan
 
 ## 👨‍💻 Author
 
