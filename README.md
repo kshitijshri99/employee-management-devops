@@ -68,51 +68,86 @@ employee-management-devops/
 └── images/
 ```
 
-## 📸 Project Screenshots
+# 📸 Project Screenshots
 
-### Promethus Target Page
+---
 
-![Promethus Target
-Page](employee-management-devops/images/promethus-target-page.png)
+## 📂 GitHub Repository
 
-### Docker Containers
+![GitHub Repository](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/github-repository.png)
 
-![Docker
-Containers](employee-management-devops/images/docker-containers.png)
+---
 
-### Ec2 Instance
+## ⚙️ Jenkins CI/CD Pipeline
 
-![Ec2 Instance](employee-management-devops/images/ec2-instance.png)
+The Jenkins pipeline automates the entire DevSecOps workflow:
 
-### Spring Boot App
+- Source Code Checkout
+- Maven Build
+- OWASP Dependency Check
+- Trivy File System Scan
+- Docker Image Build
+- Trivy Docker Image Scan
+- Docker Deployment
+- Deployment Verification
 
-![Spring Boot
-App](employee-management-devops/images/spring-boot-app.png)
+![Jenkins Pipeline](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/jenkins-pipeline.png)
 
-### Owasp Dependency Check
+---
 
-![Owasp Dependency
-Check](employee-management-devops/images/owasp-dependency-check.png)
+## 🔒 OWASP Dependency Check
 
-### Github Repository
+OWASP Dependency Check scans the Maven dependencies for publicly known vulnerabilities (CVEs) before deployment.
 
-![Github
-Repository](employee-management-devops/images/github-repository.png)
+![OWASP Report](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/owasp-dependency-check.png)
 
-### Jenkins Pipeline
+---
 
-![Jenkins
-Pipeline](employee-management-devops/images/jenkins-pipeline.png)
+## 🛡️ Trivy Security Scan
 
-### Grafana Dashboard
+Trivy performs vulnerability scanning on both the application source code and Docker image before deployment.
 
-![Grafana
-Dashboard](employee-management-devops/images/grafana-dashboard.png)
+![Trivy Scan](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/trivy-scan-report.png)
 
-### Trivy Scan Report
+---
 
-![Trivy Scan
-Report](employee-management-devops/images/trivy-scan-report.png)
+## 🐳 Docker Deployment
+
+The application is packaged as a Docker image and deployed automatically by the Jenkins pipeline.
+
+![Docker](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/docker-containers.png)
+
+---
+
+## ☁️ AWS EC2 Deployment
+
+The Docker container is hosted on an AWS EC2 Ubuntu instance.
+
+![EC2](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/ec2-instance.png)
+
+---
+
+## 🌐 Employee Management Application
+
+Landing page of the deployed Spring Boot application running on AWS.
+
+![Application](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/spring-boot-app.png)
+
+---
+
+## 📊 Prometheus Monitoring
+
+Prometheus continuously scrapes Spring Boot Actuator metrics exposed by the application.
+
+![Prometheus](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/promethus-target-page.png)
+
+---
+
+## 📈 Grafana Dashboard
+
+Grafana visualizes JVM metrics, application health, CPU usage, memory utilization, HTTP requests, and other Prometheus metrics.
+
+![Grafana Dashboard](https://raw.githubusercontent.com/kshitijshri99/employee-management-devops/main/images/grafana-dashboard.png)
 
 ## 🚀 Deployment
 
