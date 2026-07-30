@@ -256,4 +256,9 @@ Java, Spring Boot, Spring Data JPA, Docker, Jenkins, AWS EC2, Maven, Prometheus,
 
 **Kshitij Shrivastava**
 
-If you found this project useful, consider giving it a ⭐.
+- GitHub: https://github.com/kshitijshri99
+- LinkedIn: https://linkedin.com/in/kshitij-shrivastava-17551b172/
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
