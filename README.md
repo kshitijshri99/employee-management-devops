@@ -1,4 +1,5 @@
-# 🚀 Employee Management System — DevSecOps Pipeline
+# 🚀🚀 Employee Management System
+End-to-End DevSecOps CI/CD Pipeline on AWS
 
 <p align="center">
 
